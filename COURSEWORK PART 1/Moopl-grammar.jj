@@ -27,6 +27,7 @@ TOKEN : /* Terminal symbols */
   < PROC: "proc" >
 | < FUN: "fun" >
 | < CLASS: "class" >
+| < INT: "int" >
 
 // LOTS OF TOKENS MISSING HERE!
 
@@ -45,6 +46,7 @@ public void testTokens() :
   ( ( ( t = <PROC>
       | t = <FUN>
       | t = <CLASS>
+      | t = <INT>
         // ADD YOUR OWN TOKENS HERE AS YOU DEFINE EACH ONE
       )
       { System.out.println("Recognised as valid token: " + t.image); }
@@ -74,6 +76,12 @@ public void nt_ClassDecl() :
 { }
 {
   <CLASS> // TO BE COMPLETED...
+}
+
+public void nt_FieldDecl() :
+{ }
+{
+  <ID>
 }
 
 public void nt_MethodDecl() :
