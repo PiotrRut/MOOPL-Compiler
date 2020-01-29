@@ -1,0 +1,6 @@
+40
+4
+cock
+fun
+class
+proc
