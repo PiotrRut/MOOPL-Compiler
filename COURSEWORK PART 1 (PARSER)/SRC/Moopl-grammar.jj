@@ -11,7 +11,8 @@ PARSER_BEGIN(MooplParser)
   }
 PARSER_END(MooplParser)
 
-SKIP : /* White-space and comments */
+/* White-space and comments */
+SKIP :
 {
     " "
   | "\t"
@@ -22,22 +23,52 @@ SKIP : /* White-space and comments */
   | <"/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
 }
 
-TOKEN : /* Terminal symbols */
+/* Terminal symbols */
+TOKEN :
 {
   < PROC: "proc" >
 | < FUN: "fun" >
 | < CLASS: "class" >
 | < INT: "int" >
-
-// LOTS OF TOKENS MISSING HERE!
-
+| < NEW: "new" >
+| < SELF: "self" >
+| < RETURN: "return" >
+| < EXTENDS: "extends" >
+| < LOCAL: "local" >
+| < BOOLEAN: "boolean" >
+| < OUTPUT: "output" >
+| < WHILE: "while" >
+| < DO: "do" >
+| < IF: "if" >
+| < ELSE: "else">
+| < THEN: "then" >
+| < TRUE: "true" >
+| < FALSE: "false" >
+| < LENGTH: "length" >
+| < ISNULL: "isnull" >
+| < LBRACKET: "{" >
+| < RBRACKET: "}" >
+| < LSQRBRACKET: "[" >
+| < RSQRBRACKET: "]" >
+| < LPAREN: "(" >
+| < RPAREN: ")" >
+| < PERIOD: "." >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
 | < INTEGER_LITERAL: (["0"-"9"])+ >
+| < NOT: "!" >
+| < LOG_AND: "and" >
+| < LESS_THAN: "<" >
+| < EQUAL_TO: "==">
+| < ASSIGN_OP: "=" >
+| < DIV: "div" >
+| < ADD: "+" >
+| < SUBT: "-" >
+| < MULT: "*" >
 | < ID: ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])* >
 }
 
-/*
- * TOKEN tester
- */
+/* TOKEN tester */
 public void testTokens() :
 {
   Token t;
@@ -47,7 +78,40 @@ public void testTokens() :
       | t = <FUN>
       | t = <CLASS>
       | t = <INT>
-        // ADD YOUR OWN TOKENS HERE AS YOU DEFINE EACH ONE
+      | t = <NEW>
+      | t = <SELF>
+      | t = <RETURN>
+      | t = <EXTENDS>
+      | t = <LOCAL>
+      | t = <BOOLEAN>
+      | t = <OUTPUT>
+      | t = <WHILE>
+      | t = <DO>
+      | t = <IF>
+      | t = <ELSE>
+      | t = <THEN>
+      | t = <TRUE>
+      | t = <FALSE>
+      | t = <LENGTH>
+      | t = <ISNULL>
+      | t = <LBRACKET>
+      | t = <RBRACKET>
+      | t = <LSQRBRACKET>
+      | t = <RSQRBRACKET>
+      | t = <LPAREN>
+      | t = <RPAREN>
+      | t = <PERIOD>
+      | t = <SEMICOLON>
+      | t = <COMMA>
+      | t = <NOT>
+      | t = <LOG_AND>
+      | t = <LESS_THAN>
+      | t = <EQUAL_TO>
+      | t = <ASSIGN_OP>
+      | t = <DIV>
+      | t = <ADD>
+      | t = <SUBT>
+      | t = <MULT>
       )
       { System.out.println("Recognised as valid token: " + t.image); }
     )
@@ -75,7 +139,8 @@ public void nt_Program() :
 public void nt_ClassDecl() :
 { }
 {
-  <CLASS> // TO BE COMPLETED...
+    LOOKAHEAD(3) <CLASS> <ID> <LBRACKET> (nt_FieldDecl())* (nt_MethodDecl())* <RBRACKET>
+  | <CLASS> <ID> <EXTENDS> <ID> <LBRACKET> (nt_FieldDecl())* (nt_MethodDecl())* <RBRACKET>
 }
 
 public void nt_FieldDecl() :
@@ -108,4 +173,20 @@ public void nt_PrimaryExp() :
   <INTEGER_LITERAL> // TODO: ADD MISSING CASES...
 }
 
-// TODO: ADD THE MISSING NON-TERMINALS...
+public void nt_Op() :
+{}
+{
+    <LOG_AND>
+  | <EQUAL_TO>
+  | <LESS_THAN>
+  | <DIV>
+  | <ADD>
+  | <SUBT>
+  | <MULT>
+}
+
+public void nt_Exp() :
+{}
+{
+<NEW>
+}

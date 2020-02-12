@@ -17,9 +17,77 @@ public interface MooplParserConstants {
   /** RegularExpression Id. */
   int INT = 11;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 12;
+  int NEW = 12;
   /** RegularExpression Id. */
-  int ID = 13;
+  int SELF = 13;
+  /** RegularExpression Id. */
+  int RETURN = 14;
+  /** RegularExpression Id. */
+  int EXTENDS = 15;
+  /** RegularExpression Id. */
+  int LOCAL = 16;
+  /** RegularExpression Id. */
+  int BOOLEAN = 17;
+  /** RegularExpression Id. */
+  int OUTPUT = 18;
+  /** RegularExpression Id. */
+  int WHILE = 19;
+  /** RegularExpression Id. */
+  int DO = 20;
+  /** RegularExpression Id. */
+  int IF = 21;
+  /** RegularExpression Id. */
+  int ELSE = 22;
+  /** RegularExpression Id. */
+  int THEN = 23;
+  /** RegularExpression Id. */
+  int TRUE = 24;
+  /** RegularExpression Id. */
+  int FALSE = 25;
+  /** RegularExpression Id. */
+  int LENGTH = 26;
+  /** RegularExpression Id. */
+  int ISNULL = 27;
+  /** RegularExpression Id. */
+  int LBRACKET = 28;
+  /** RegularExpression Id. */
+  int RBRACKET = 29;
+  /** RegularExpression Id. */
+  int LSQRBRACKET = 30;
+  /** RegularExpression Id. */
+  int RSQRBRACKET = 31;
+  /** RegularExpression Id. */
+  int LPAREN = 32;
+  /** RegularExpression Id. */
+  int RPAREN = 33;
+  /** RegularExpression Id. */
+  int PERIOD = 34;
+  /** RegularExpression Id. */
+  int SEMICOLON = 35;
+  /** RegularExpression Id. */
+  int COMMA = 36;
+  /** RegularExpression Id. */
+  int INTEGER_LITERAL = 37;
+  /** RegularExpression Id. */
+  int NOT = 38;
+  /** RegularExpression Id. */
+  int LOG_AND = 39;
+  /** RegularExpression Id. */
+  int LESS_THAN = 40;
+  /** RegularExpression Id. */
+  int EQUAL_TO = 41;
+  /** RegularExpression Id. */
+  int ASSIGN_OP = 42;
+  /** RegularExpression Id. */
+  int DIV = 43;
+  /** RegularExpression Id. */
+  int ADD = 44;
+  /** RegularExpression Id. */
+  int SUBT = 45;
+  /** RegularExpression Id. */
+  int MULT = 46;
+  /** RegularExpression Id. */
+  int ID = 47;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -38,7 +106,41 @@ public interface MooplParserConstants {
     "\"fun\"",
     "\"class\"",
     "\"int\"",
+    "\"new\"",
+    "\"self\"",
+    "\"return\"",
+    "\"extends\"",
+    "\"local\"",
+    "\"boolean\"",
+    "\"output\"",
+    "\"while\"",
+    "\"do\"",
+    "\"if\"",
+    "\"else\"",
+    "\"then\"",
+    "\"true\"",
+    "\"false\"",
+    "\"length\"",
+    "\"isnull\"",
+    "\"{\"",
+    "\"}\"",
+    "\"[\"",
+    "\"]\"",
+    "\"(\"",
+    "\")\"",
+    "\".\"",
+    "\";\"",
+    "\",\"",
     "<INTEGER_LITERAL>",
+    "\"!\"",
+    "\"and\"",
+    "\"<\"",
+    "\"==\"",
+    "\"=\"",
+    "\"div\"",
+    "\"+\"",
+    "\"-\"",
+    "\"*\"",
     "<ID>",
   };
 
