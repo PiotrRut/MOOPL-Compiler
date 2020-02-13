@@ -20,7 +20,7 @@ SKIP :
   | "\r"
   | "\f"
   | < "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
-  | <"/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+  | < "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/" >
 }
 
 /* Terminal symbols */
@@ -48,8 +48,8 @@ TOKEN :
 | < ISNULL: "isnull" >
 | < LBRACKET: "{" >
 | < RBRACKET: "}" >
-| < LSQRBRACKET: "[" >
-| < RSQRBRACKET: "]" >
+| < L_SQR_BRACKET: "[" >
+| < R_SQR_BRACKET: "]" >
 | < LPAREN: "(" >
 | < RPAREN: ")" >
 | < PERIOD: "." >
@@ -96,8 +96,8 @@ public void testTokens() :
       | t = <ISNULL>
       | t = <LBRACKET>
       | t = <RBRACKET>
-      | t = <LSQRBRACKET>
-      | t = <RSQRBRACKET>
+      | t = <L_SQR_BRACKET>
+      | t = <R_SQR_BRACKET>
       | t = <LPAREN>
       | t = <RPAREN>
       | t = <PERIOD>
@@ -146,7 +146,7 @@ public void nt_ClassDecl() :
 public void nt_FieldDecl() :
 { }
 {
-  <ID>
+  nt_Type() <ID> <SEMICOLON>
 }
 
 public void nt_MethodDecl() :
@@ -155,38 +155,43 @@ public void nt_MethodDecl() :
   nt_ProcDecl() | nt_FunDecl()
 }
 
-public void nt_FunDecl() :
-{ }
-{
-  <FUN> // TO BE COMPLETED...
-}
-
 public void nt_ProcDecl() :
 { }
 {
-  <PROC> // TO BE COMPLETED...
+  <PROC> <ID> <LPAREN> nt_FormalList() <RPAREN> <LBRACKET> (nt_Statement())* <RBRACKET>
+}
+
+public void nt_FunDecl() :
+{ }
+{
+  <FUN> nt_Type() <ID> <LPAREN> nt_FormalList() <RPAREN>
+  <LBRACKET> (nt_Statement())* <RETURN> nt_Exp() <SEMICOLON> <RBRACKET>
+}
+
+public void nt_FormalList() :
+{ }
+{ // TODO: Check whether the represantation of epsilon is correct here
+    nt_Type() <ID> (nt_FormalRest())*
+  | { }
+}
+
+public void nt_FormalRest() :
+{ }
+{
+  <COMMA> nt_Type() <ID>
 }
 
 public void nt_PrimaryExp() :
-{}
+{ }
 {
-  <INTEGER_LITERAL> // TODO: ADD MISSING CASES...
-}
-
-public void nt_Op() :
-{}
-{
-    <LOG_AND>
-  | <EQUAL_TO>
-  | <LESS_THAN>
-  | <DIV>
-  | <ADD>
-  | <SUBT>
-  | <MULT>
-}
-
-public void nt_Exp() :
-{}
-{
-<NEW>
+    <INTEGER_LITERAL>
+  | <TRUE>
+  | <FALSE>
+  | <ID>
+  | <SELF>
+  | LOOKAHEAD(3) <NEW> <ID> <LPAREN> nt_ExpList() <RPAREN>
+  | <NEW> nt_Type() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>
+  | <NOT> nt_PrimaryExp()
+  | <ISNULL> nt_PrimaryExp()
+  | <LPAREN> nt_Exp() <RPAREN>
 }
