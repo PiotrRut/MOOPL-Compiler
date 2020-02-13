@@ -170,15 +170,39 @@ public void nt_FunDecl() :
 
 public void nt_FormalList() :
 { }
-{ // TODO: Check whether the represantation of epsilon is correct here
+{
     nt_Type() <ID> (nt_FormalRest())*
-  | { }
+  | { } // ???
 }
 
 public void nt_FormalRest() :
 { }
 {
   <COMMA> nt_Type() <ID>
+}
+
+public void nt_Type() :
+{ }
+{
+  // TODO: LEFT RECURSION
+}
+
+public void nt_Statement() :
+{ }
+{
+  // TODO: LEFT RECURSION
+}
+
+public void nt_Block() :
+{ }
+{
+  <LBRACKET> (nt_Statement())* <RBRACKET>
+}
+
+public void nt_Exp() :
+{ }
+{
+  // TODO: LEFT RECURSION
 }
 
 public void nt_PrimaryExp() :
@@ -194,4 +218,23 @@ public void nt_PrimaryExp() :
   | <NOT> nt_PrimaryExp()
   | <ISNULL> nt_PrimaryExp()
   | <LPAREN> nt_Exp() <RPAREN>
+}
+
+public void nt_Var() :
+{ }
+{
+  <ID>
+}
+
+public void nt_ExpList() :
+{ }
+{
+    nt_Exp() (nt_ExpRest())*
+  | { }
+}
+
+public void nt_ExpRest() :
+{ }
+{
+  <COMMA> nt_Exp()
 }
