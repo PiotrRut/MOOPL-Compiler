@@ -184,7 +184,7 @@ public void nt_FormalRest() :
 public void nt_Type() :
 { }
 {
-  // TODO: LEFT RECURSION
+  (<INT> | <BOOLEAN> | <ID>) (LOOKAHEAD(2) <L_SQR_BRACKET> <R_SQR_BRACKET>)*
 }
 
 public void nt_Statement() :
@@ -192,8 +192,8 @@ public void nt_Statement() :
 {
     nt_Block()
   | <LOCAL> nt_Type() <ID> <SEMICOLON>
-  | nt_Var() <ASSIGN_OP> nt_Exp() <SEMICOLON>
-  | nt_PrimaryExp() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET> <ASSIGN_OP> nt_Exp() <SEMICOLON>
+  | LOOKAHEAD(2) nt_Var() <ASSIGN_OP> nt_Exp() <SEMICOLON>
+  | LOOKAHEAD(2) nt_PrimaryExp() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET> <ASSIGN_OP> nt_Exp() <SEMICOLON>
   | <IF> <LPAREN> nt_Exp() <RPAREN> <THEN> nt_Statement() <ELSE> nt_Statement()
   | <WHILE> <LPAREN> nt_Exp() <RPAREN> <DO> nt_Statement()
   | <OUTPUT> nt_Exp() <SEMICOLON>
@@ -208,12 +208,11 @@ public void nt_Block() :
 
 public void nt_Exp() :
 { }
-{ // TODO: FIX LOOKAHEAD WARNINGS (FACTORING)
-    nt_PrimaryExp() nt_Op() nt_PrimaryExp()
-  | nt_PrimaryExp() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>
-  | nt_PrimaryExp() <PERIOD> <LENGTH>
-  | nt_PrimaryExp() <PERIOD> <ID> <LPAREN> nt_ExpList() <RPAREN>
-  | nt_PrimaryExp()
+{
+    nt_PrimaryExp() ((nt_Op() nt_PrimaryExp()
+  | (<L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>) )
+  | LOOKAHEAD(2)(<PERIOD> <LENGTH>)
+  | (<PERIOD> <ID> <LPAREN> nt_ExpList() <RPAREN>))*
 }
 
 public void nt_PrimaryExp() :

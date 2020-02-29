@@ -53,9 +53,9 @@ public interface MooplParserConstants {
   /** RegularExpression Id. */
   int RBRACKET = 29;
   /** RegularExpression Id. */
-  int LSQRBRACKET = 30;
+  int L_SQR_BRACKET = 30;
   /** RegularExpression Id. */
-  int RSQRBRACKET = 31;
+  int R_SQR_BRACKET = 31;
   /** RegularExpression Id. */
   int LPAREN = 32;
   /** RegularExpression Id. */
