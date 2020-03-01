@@ -1,0 +1,5 @@
+proc main(int[] a) {
+  local int x;
+        // not an int
+  x = a[true];
+}

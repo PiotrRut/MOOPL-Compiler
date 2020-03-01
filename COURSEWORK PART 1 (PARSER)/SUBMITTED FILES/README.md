@@ -1,3 +1,5 @@
+From the coursework brief:
+
 **a) [25 marks] Syntax and Grammar. You should:**
 
 
@@ -9,7 +11,7 @@
   * When implementing this grammar you should not include any semantic actions. The return type for each method should be void. Part b asks
   you to change this. You can test your parser by running `java Parse filename`
 
-You are required to submit this version as a separate file (Moopl-grammar.jj) so make a copy and put it somewhere safe before moving on to part b.
+You are required to submit this version as a separate file (`Moopl-grammar.jj`) so make a copy and put it somewhere safe before moving on to part b.
 
 **b) [25 marks] Abstract Syntax Tree. You should:**
 

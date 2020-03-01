@@ -1,0 +1,33 @@
+proc main() {
+  new Counter(0).click();
+}
+
+proc test(int x) {
+  local Counter counter;
+  counter = new Counter(0);
+  local int i;
+  i = 0;
+  while (i < x) do
+  {
+    counter.click();
+    i = i + 1;
+  }
+}
+
+class Counter {
+  int count;
+
+  proc Counter(int initCount) {
+    count = initCount;
+  }
+
+  proc click() {
+    count = count + 1;
+    output self.getCount();
+  }
+
+  fun int getCount() {
+    return count;
+  }
+}
+

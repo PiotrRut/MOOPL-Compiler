@@ -1,0 +1,31 @@
+proc main() {
+  local Factorial f;
+  f = new factorial();
+  output f.factorial(6);
+}
+
+proc test(int x) {
+  local Factorial f;
+  f = new factorial();
+  output f.factorial(x);
+}
+
+class Factorial {
+
+  proc Factorial() {
+  }
+
+  fun int factorial(int x) {
+    local int result;
+    if (x < 1) then
+    {
+      result = 1;
+    }
+    else
+    {
+      result = x * (self.factorial(x - 1));
+    }
+    return result;
+  }
+}
+

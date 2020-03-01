@@ -1,0 +1,156 @@
+proc main() {
+}
+
+proc test(int age, int salary, boolean married) {
+  local List l;
+  l = new List();
+  output l.size();
+  local BigElement e;
+  e = new BigElement(1, 2, false);
+  l.insert(e);
+  e = new BigElement(1, 2, true);
+  l.insert(e);
+  e = new BigElement(1, 2, false);
+  l.insert(e);
+  e = new BigElement(2, 3, true);
+  l.insert(e);
+  output l.size();
+  output l.count(new BigElement(age, salary, married));
+}
+
+proc varTest(int size) {
+  local List list;
+  list = new List();
+  local int n;
+  n = 0;
+  while (n < size) do
+  {
+    list.insert(new BigElement(n, 2 * n, (n div 2) == 0));
+    n = n + 1;
+  }
+  output list.size();
+}
+
+class Element {
+  int age;
+
+  proc Element(int age_) {
+    age = age_;
+  }
+
+  fun int getAge() {
+    return age;
+  }
+}
+
+class BigElement extends Element {
+  int salary;
+  boolean married;
+
+  // initialize class variables
+  proc BigElement(int v_age, int v_salary, boolean v_married) {
+    self.Element(v_age);
+    salary = v_salary;
+    married = v_married;
+  }
+
+  fun int getSalary() {
+    return salary;
+  }
+
+  fun boolean getMarried() {
+    return married;
+  }
+
+  // This method returns true if the object "other"
+  // has the same values for age, salary and married
+  fun boolean equals(BigElement other) {
+    local boolean result;
+    result = (other.getAge()) == age;
+    result = result and ((other.getSalary()) == salary);
+    result = result and ((other.getMarried()) == married);
+    return result;
+  }
+}
+
+class List {
+  BigElement elem;
+  List next;
+  boolean empty;
+
+  // Initialize as an empty list
+  proc List() {
+    empty = true;
+  }
+
+  fun BigElement getElem() {
+    return new Element(elem.getAge());
+  }
+
+  fun List getNext() {
+    return next;
+  }
+
+  fun boolean isEmpty() {
+    return empty;
+  }
+
+  proc insert(BigElement e) {
+    local List newNode;
+    newNode = new List();
+    if (!empty) then
+    {
+      newNode.setElem(elem);
+      newNode.setNext(next);
+    }
+    else
+    {
+    }
+    elem = e;
+    next = newNode;
+    empty = false;
+  }
+
+  proc setElem(BigElement e) {
+    elem = e;
+    empty = false;
+  }
+
+  proc setNext(List l) {
+    next = l;
+    empty = false;
+  }
+
+  fun int size() {
+    local int n;
+    n = 0;
+    local List rest;
+    rest = self;
+    while (!(rest.isEmpty())) do
+    {
+      n = n + 1;
+      rest = rest.getNext();
+    }
+    return n;
+  }
+
+  fun int count(BigElement e) {
+    local List rest;
+    rest = self;
+    local int count;
+    count = 0;
+    while (!(rest.isEmpty())) do
+    {
+      if (e.equals(rest.getElem())) then
+      {
+        count = count + 1;
+      }
+      else
+      {
+      }
+      rest = rest.getNext();
+    }
+    return count;
+  }
+}
+

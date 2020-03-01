@@ -1,0 +1,5 @@
+proc main(int[] a) {
+  local boolean x;
+      // wrong element type for assignment to x
+  x = a[1];
+}

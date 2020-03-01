@@ -1,0 +1,21 @@
+proc main() {
+  local Dummy d;
+  d = new Dummy();
+  (d.null()).foo();
+}
+
+class Dummy {
+  Dummy null;
+
+  proc Dummy() {
+  }
+
+  fun Dummy null() {
+    return null;
+  }
+
+  fun int foo() {
+    return null;
+  }
+}
+
