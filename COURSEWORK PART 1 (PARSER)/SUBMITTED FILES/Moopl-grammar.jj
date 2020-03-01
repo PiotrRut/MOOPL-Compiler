@@ -1,0 +1,262 @@
+options {
+  STATIC = false;
+}
+
+PARSER_BEGIN(MooplParser)
+  import syntaxtree.*;
+  import java.util.List;
+  import java.util.ArrayList;
+  import java.util.LinkedList;
+  public class MooplParser {
+  }
+PARSER_END(MooplParser)
+
+/* White-space and comments */
+SKIP :
+{
+    " "
+  | "\t"
+  | "\n"
+  | "\r"
+  | "\f"
+  | < "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
+  | < "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/" >
+}
+
+/* Terminal symbols */
+TOKEN :
+{
+  < PROC: "proc" >
+| < FUN: "fun" >
+| < CLASS: "class" >
+| < INT: "int" >
+| < NEW: "new" >
+| < SELF: "self" >
+| < RETURN: "return" >
+| < EXTENDS: "extends" >
+| < LOCAL: "local" >
+| < BOOLEAN: "boolean" >
+| < OUTPUT: "output" >
+| < WHILE: "while" >
+| < DO: "do" >
+| < IF: "if" >
+| < ELSE: "else">
+| < THEN: "then" >
+| < TRUE: "true" >
+| < FALSE: "false" >
+| < LENGTH: "length" >
+| < ISNULL: "isnull" >
+| < LBRACKET: "{" >
+| < RBRACKET: "}" >
+| < L_SQR_BRACKET: "[" >
+| < R_SQR_BRACKET: "]" >
+| < LPAREN: "(" >
+| < RPAREN: ")" >
+| < PERIOD: "." >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < INTEGER_LITERAL: (["0"-"9"])+ >
+| < NOT: "!" >
+| < LOG_AND: "and" >
+| < LESS_THAN: "<" >
+| < EQUAL_TO: "==">
+| < ASSIGN_OP: "=" >
+| < DIV: "div" >
+| < ADD: "+" >
+| < SUBT: "-" >
+| < MULT: "*" >
+| < ID: ["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])* >
+}
+
+/* TOKEN tester */
+public void testTokens() :
+{
+  Token t;
+}
+{
+  ( ( ( t = <PROC>
+      | t = <FUN>
+      | t = <CLASS>
+      | t = <INT>
+      | t = <NEW>
+      | t = <SELF>
+      | t = <RETURN>
+      | t = <EXTENDS>
+      | t = <LOCAL>
+      | t = <BOOLEAN>
+      | t = <OUTPUT>
+      | t = <WHILE>
+      | t = <DO>
+      | t = <IF>
+      | t = <ELSE>
+      | t = <THEN>
+      | t = <TRUE>
+      | t = <FALSE>
+      | t = <LENGTH>
+      | t = <ISNULL>
+      | t = <LBRACKET>
+      | t = <RBRACKET>
+      | t = <L_SQR_BRACKET>
+      | t = <R_SQR_BRACKET>
+      | t = <LPAREN>
+      | t = <RPAREN>
+      | t = <PERIOD>
+      | t = <SEMICOLON>
+      | t = <COMMA>
+      | t = <NOT>
+      | t = <LOG_AND>
+      | t = <LESS_THAN>
+      | t = <EQUAL_TO>
+      | t = <ASSIGN_OP>
+      | t = <DIV>
+      | t = <ADD>
+      | t = <SUBT>
+      | t = <MULT>
+      )
+      { System.out.println("Recognised as valid token: " + t.image); }
+    )
+  | ( t = <INTEGER_LITERAL>
+      { System.out.println("Recognised as INTEGER_LITERAL: " + t.image); }
+    )
+  | ( t = <ID>
+      { System.out.println("Recognised as ID: " + t.image); }
+    )
+  )*
+  <EOF>
+}
+
+
+/************************************
+ * The Moopl grammar starts here *
+ ************************************/
+
+public void nt_Program() :
+{ }
+{
+  ( nt_ProcDecl() )+ ( nt_ClassDecl() )* <EOF>
+}
+
+public void nt_ClassDecl() :
+{ }
+{
+    LOOKAHEAD(3) <CLASS> <ID> <LBRACKET> (nt_FieldDecl())* (nt_MethodDecl())* <RBRACKET>
+  | <CLASS> <ID> <EXTENDS> <ID> <LBRACKET> (nt_FieldDecl())* (nt_MethodDecl())* <RBRACKET>
+}
+
+public void nt_FieldDecl() :
+{ }
+{
+  nt_Type() <ID> <SEMICOLON>
+}
+
+public void nt_MethodDecl() :
+{ }
+{
+  nt_ProcDecl() | nt_FunDecl()
+}
+
+public void nt_ProcDecl() :
+{ }
+{
+  <PROC> <ID> <LPAREN> nt_FormalList() <RPAREN> <LBRACKET> (nt_Statement())* <RBRACKET>
+}
+
+public void nt_FunDecl() :
+{ }
+{
+  <FUN> nt_Type() <ID> <LPAREN> nt_FormalList() <RPAREN>
+  <LBRACKET> (nt_Statement())* <RETURN> nt_Exp() <SEMICOLON> <RBRACKET>
+}
+
+public void nt_FormalList() :
+{ }
+{
+    nt_Type() <ID> (nt_FormalRest())*
+  | { }
+}
+
+public void nt_FormalRest() :
+{ }
+{
+  <COMMA> nt_Type() <ID>
+}
+
+public void nt_Type() :
+{ }
+{
+  (<INT> | <BOOLEAN> | <ID>) (LOOKAHEAD(2) <L_SQR_BRACKET> <R_SQR_BRACKET>)*
+}
+
+public void nt_Statement() :
+{ }
+{
+    nt_Block()
+  | <LOCAL> nt_Type() <ID> <SEMICOLON>
+  | LOOKAHEAD(2) nt_Var() <ASSIGN_OP> nt_Exp() <SEMICOLON>
+  | LOOKAHEAD(2) nt_PrimaryExp() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET> <ASSIGN_OP> nt_Exp() <SEMICOLON>
+  | <IF> <LPAREN> nt_Exp() <RPAREN> <THEN> nt_Statement() <ELSE> nt_Statement()
+  | <WHILE> <LPAREN> nt_Exp() <RPAREN> <DO> nt_Statement()
+  | <OUTPUT> nt_Exp() <SEMICOLON>
+  | nt_PrimaryExp() <PERIOD> <ID> <LPAREN> nt_ExpList() <RPAREN> <SEMICOLON>
+}
+
+public void nt_Block() :
+{ }
+{
+  <LBRACKET> (nt_Statement())* <RBRACKET>
+}
+
+public void nt_Exp() :
+{ }
+{
+    nt_PrimaryExp() ((nt_Op() nt_PrimaryExp()
+  | (<L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>) )
+  | LOOKAHEAD(2)(<PERIOD> <LENGTH>)
+  | (<PERIOD> <ID> <LPAREN> nt_ExpList() <RPAREN>))*
+}
+
+public void nt_PrimaryExp() :
+{ }
+{
+    <INTEGER_LITERAL>
+  | <TRUE>
+  | <FALSE>
+  | <ID>
+  | <SELF>
+  | LOOKAHEAD(3) <NEW> <ID> <LPAREN> nt_ExpList() <RPAREN>
+  | <NEW> nt_Type() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>
+  | <NOT> nt_PrimaryExp()
+  | <ISNULL> nt_PrimaryExp()
+  | <LPAREN> nt_Exp() <RPAREN>
+}
+
+public void nt_Var() :
+{ }
+{
+  <ID>
+}
+
+public void nt_ExpList() :
+{ }
+{
+    nt_Exp() (nt_ExpRest())*
+  | { }
+}
+
+public void nt_ExpRest() :
+{ }
+{
+  <COMMA> nt_Exp()
+}
+
+public void nt_Op() :
+{ }
+{
+    <LOG_AND>
+  | <LESS_THAN>
+  | <EQUAL_TO>
+  | <DIV>
+  | <ADD>
+  | <SUBT>
+  | <MULT>
+}
