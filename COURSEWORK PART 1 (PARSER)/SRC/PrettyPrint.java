@@ -20,7 +20,7 @@ public class PrettyPrint {
                     return;
                 }
             }
-            //parser.nt_Program().accept(new PrettyPrinter());
+            parser.nt_Program().accept(new PrettyPrinter());
         } catch (Throwable e) {
             e.printStackTrace();
         }

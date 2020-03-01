@@ -224,7 +224,7 @@ public void nt_PrimaryExp() :
     <INTEGER_LITERAL>
   | <TRUE>
   | <FALSE>
-  | <ID>
+  | nt_Var()
   | <SELF>
   | LOOKAHEAD(3) <NEW> <ID> <LPAREN> nt_ExpList() <RPAREN>
   | <NEW> nt_Type() <L_SQR_BRACKET> nt_Exp() <R_SQR_BRACKET>

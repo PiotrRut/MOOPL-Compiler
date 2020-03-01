@@ -5,9 +5,9 @@ import visitor.Visitor;
 public class ExpOp extends Exp {
 
     public enum Op {
-        
+
         AND("and"), LESSTHAN("<"), EQUALS("=="), DIV("div"), PLUS("+"), MINUS("-"), TIMES("*");
-        
+
         private final String name;
         private Op(String name) { this.name = name; }
         public String toString() { return name; }
