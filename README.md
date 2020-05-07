@@ -14,12 +14,11 @@ The tasks given to us were adding the `TOKEN` definitions in the *Moopl-grammar.
 Status - __ALL TESTS PASSED__
 
 ## Part 2
-The second part of the coursework focuses on building a compiler. My submitted solution to this part can be found in the directory marked [__COURSEWORK PART 2__](https://github.com/PiotrRut/CompilerCW/tree/master/COURSEWORK%20PART%201%20(PARSER)).
+The second part of the coursework focuses on building a compiler. My submitted solution to this part can be found in the directory marked [__COURSEWORK PART 2__](https://github.com/PiotrRut/MOOPL-Compiler/tree/master/COURSEWORK%20PART%202%20(COMPILER)).
 
 Our task was to edit the `Compiler.java` file, and implement the required declarations.
 
 From the Part 2 briefing: 
 
 > _This is the 2nd and final part of the coursework. In Part 1 you created a parser for the Moopl grammar which, given a syntactically correct Moopl program as input, builds an AST representation of the program. In Part 2 you will develop a compiler_
->
 _For this part of the coursework we provide functional code for parsing, building a symbol table, type checking and variable allocation. The language, Mapl, is a simplified version of Moopl which supports arrays but not classes or objects._
